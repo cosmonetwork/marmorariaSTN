@@ -2,6 +2,10 @@
   <div class="login">
     <div class="md-layout md-gutter md-alignment-center-center">
       <md-card md-with-hover>
+        <md-progress-bar v-if="loginPress" md-mode="indeterminate"></md-progress-bar>
+          <md-card-header v-if="erroLogin">
+            <h5>{{ erroLoginMessage }}</h5>
+          </md-card-header>
           <md-card-content>
             <md-field>
               <md-icon>face</md-icon>
@@ -33,10 +37,31 @@ export default {
   data () {
     return {
       email: '',
-      senha: ''
+      senha: '',
+      erroLogin: false,
+      loginPress: false,
+      erroLoginMessage: ''
     }
   },
   methods: {
+    login () {
+      this.loginPress = true
+      firebase.auth().signInWithEmailAndPassword(this.email, this.senha).then((user) => {
+        if (user) {
+          console.log('Sucesso')
+          this.loginPress = false
+          this.erroLogin = false
+          this.$router.push('/home')
+        }
+      }).catch((error) => {
+        if (error) {
+          console.log('erro')
+          this.erroLoginMessage = error.message
+          this.erroLogin = true
+          this.loginPress = false
+        }
+      })
+    }
   }
 }
 </script>

@@ -7,7 +7,7 @@
         </md-button>
 
         <h2 class="md-title" style="flex: 1">{{ titulo }}</h2>
-
+        <span>Data: {{ dia }}/{{ mes }}/{{ ano }}</span>
         <md-button @click="gerarNota()" class="">
           Gerar Nota de Orçamento
         </md-button>
@@ -33,7 +33,7 @@
                 <label class="labels">CONTATO</label>
                 <md-input v-model="contato"></md-input>
               </md-field>
-              <b-button @click="geraOrdem()" variant="outline-success">OK</b-button>
+              <b-button @click="addCliente()" variant="outline-success">OK</b-button>
             </div>
             <div v-if="dadoPeca">
               <label>Cliente: {{ nome }}</label>
@@ -155,10 +155,12 @@ export default {
   data () {
     return {
       titulo: 'ORÇAMENTO',
+      dia: '',
+      mes: '',
+      ano: '',
       nota: false,
       dadocliente: true,
       dadoPeca: false,
-      ordem: '',
       nome: '',
       endereco: '',
       contato: '',
@@ -188,10 +190,6 @@ export default {
     }
   },
   firebase: {
-    ordemgeral: {
-      source: clienteRef.child('ordemgeral'),
-      asObject: true
-    }
   },
   methods: {
     addPeca () {
@@ -211,7 +209,7 @@ export default {
       this.nota = true
     },
     addFuro () {
-      clienteRef.child('ordem-' + this.ordem).child('itens').push({
+      this.items.push({
         qtd: 1,
         ordem: this.ordem,
         nomePeca: 'Furo',
@@ -222,7 +220,7 @@ export default {
       this.precoTotal = this.precoTotal + 65
     },
     addItem () {
-      clienteRef.child('ordem-' + this.ordem).child('itens').push({
+      this.items.push({
         qtd: this.qtd,
         nomePeca: this.nomePeca,
         comprimento: this.comprimento,
@@ -247,13 +245,15 @@ export default {
         contato: this.contato
       })
     },
-    geraOrdem () {
-      this.ordem = this.ordemgeral['.value'] + 1
-      clienteRef.update({ordemgeral: this.ordem})
-      this.addCliente()
+    geraData () {
+      var now = new Date()
+      this.dia = now.getDate()
+      this.mes = now.getMonth() + 1
+      this.ano = now.getFullYear()
     }
   },
-  mounted () {
+  created () {
+    this.geraData()
   }
 }
 </script>
