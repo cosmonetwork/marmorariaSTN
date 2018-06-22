@@ -62,7 +62,7 @@
         <md-button class="md-icon-button" @click="toggleMenu">
           <md-icon>menu</md-icon>
         </md-button>
-        <span class="md-title">ERP</span>
+        <span class="md-title">{{ titulo }}</span>
       </md-app-toolbar>
 
       <md-app-drawer :md-active.sync="menuVisible" md-persistent="mini" md-permanent="clipped">

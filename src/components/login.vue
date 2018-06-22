@@ -3,8 +3,11 @@
     <div class="md-layout md-gutter md-alignment-center-center">
       <md-card md-with-hover>
         <md-progress-bar v-if="loginPress" md-mode="indeterminate"></md-progress-bar>
-          <md-card-header v-if="erroLogin">
-            <h5>{{ erroLoginMessage }}</h5>
+          <md-avatar class="md-layout md-large md-alignment-center">
+            <img src="../assets/santa-ana.jpg" alt="People">
+          </md-avatar>
+          <md-card-header>
+            <h5 v-if="erroLogin">{{ erroLoginMessage }}</h5>
           </md-card-header>
           <md-card-content>
             <md-field>
