@@ -58,7 +58,7 @@
   </div>-->
   <div class="ERPToolbar">
     <md-app>
-      <md-app-toolbar class="md-elevation-1 md-primary">
+      <md-app-toolbar class="md-elevation-1 md-dense md-primary">
         <md-button class="md-icon-button" @click="toggleMenu">
           <md-icon>menu</md-icon>
         </md-button>
@@ -102,20 +102,28 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
+@import "~vue-material/dist/theme/engine"; // Import the theme engine
+
+@include md-register-theme("default", (
+  primary: md-get-palette-color(blue, A200), // The primary color of your application
+  accent: md-get-palette-color(red, A200) // The accent or secondary color
+));
+
+@import "~vue-material/dist/theme/all"; // Apply the theme
+
   .md-app {
-    min-height: 720px;
-    border: 1px solid rgba(#000, .12);
+    min-height: 600px;
   }
 
   .md-drawer {
-    height: 720px;
+    height: 600px;
     position: inherit;
     width: 250px;
     max-width: calc(100vw - 125px);
   }
   .md-toolbar.md-theme-default.md-primary {
-    background-color: #dc3545;
+    background-color: #448aff;
   }
 
 </style>

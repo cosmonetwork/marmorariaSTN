@@ -10,4 +10,4 @@ const app = initializeApp({
 })
 
 export const db = app.database()
-export const clienteRef = db.ref('bd')
+export const clienteRef = db.ref('db')
