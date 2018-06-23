@@ -14,20 +14,48 @@
       <br>
         </div>
           <md-list v-for="dados of orcamentos" :key="dados['.key']" class="md-triple-line">
-            <md-card md-with-hover>
-              <md-list-item>
+              <md-list-item md-expand>
                 <div class="md-list-item-text">
-                <span>{{ dados.cliente }}</span>
-                <span>Brunch this weekend?</span>
-                <p>I'll be in your neighborhood doing errands this week. Do you want to meet?</p>
+                <span><strong>NOME: </strong> {{ dados.cliente }} - <strong>CONTATO: </strong> {{ dados.contato }} - <strong>DATA: </strong>{{ dados.dia }}/{{ dados.mes }}/{{ dados.ano }}</span>
+                <span>{{ dados.endereco }}</span>
+                <p>{{ dados.status }}</p>
                 </div>
-
-                <md-button @click="remove(dados['.key'])" class="md-list-action">
+                  <md-list slot="md-expand">
+                    <table class="table table-sm table-bordered">
+                      <thead>
+                        <tr>
+                          <th scope="col">Qtd</th>
+                          <th scope="col">Nome</th>
+                          <th scope="col">Comprimento</th>
+                          <th scope="col">Largura</th>
+                          <th scope="col">Granito</th>
+                          <th scope="col">Preço</th>
+                        </tr>
+                      </thead>
+                      <tbody v-for="itemNota in dados.itens" :key="itemNota.key">
+                        <tr>
+                          <th scope="row">{{ itemNota.qtd }}</th>
+                          <td>{{ itemNota.nomePeca }}</td>
+                          <td>{{ itemNota.comprimento }}</td>
+                          <td>{{ itemNota.largura }}</td>
+                          <td>{{ itemNota.granito }}</td>
+                          <td>{{ itemNota.precoPeca | currency}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </md-list>
+                <md-button @click="remove(dados['.key'])">
                     Remover
                 </md-button>
+                <md-button @click="alterarStatus(dados['.key'])">
+                    Alterar Andamento
+                </md-button>
              </md-list-item>
-            </md-card>
            </md-list>
+           <div>
+        <div>
+        </div>
+      </div>
     </div>
 </template>
 
@@ -38,7 +66,8 @@ export default {
   name: 'listadeorcamentos',
   data () {
     return {
-      titulo: 'Lista de Orçamentos'
+      titulo: 'Lista de Orçamentos',
+      dataFire: {}
     }
   },
   filters: {
@@ -52,6 +81,12 @@ export default {
   methods: {
     remove (key) {
       clienteRef.child('vendas').child(key).remove()
+    },
+    visualizar (key) {
+      this.datas = clienteRef.child('vendas').child(key)
+      console.log(this.dataFire.cliente)
+    },
+    alterarStatus (key) {
     }
   }
 }
