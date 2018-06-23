@@ -77,6 +77,8 @@
                       </tr>
                     </tbody>
                   </table>
+                  <label>TOTAL: <strong>{{ precoTotal | currency  }}</strong></label> <br />
+                  <label v-show="desconto != null">À VISTA COM DESCONTO: <strong>{{ precoTotalComDesconto | currency}}</strong></label>
                 </div>
                 <div v-if="dadoPeca">
                   <br />
@@ -92,7 +94,13 @@
                     </b-input-group>
                     <br />
                     <br />
-                    <b-button v-b-modal="'pecaAdicional'" @click="addFuro()" variant="outline-success">Adicionar Furo</b-button>
+                    <div>
+                      <br />
+                      <b-button class="mb-2 mr-sm-2 mb-sm-0" v-b-modal="'pecaAdicional'" @click="addFuro()" variant="outline-success">Adicionar Furo</b-button>
+                      <b-button v-show="!showInputDeDesconto" class="mb-2 mr-sm-2 mb-sm-0" @click="showInputDesconto()" variant="danger">Desconto</b-button>
+                      <b-input v-show="showInputDeDesconto" type="number" class="mb-2 mr-sm-2 mb-sm-0" v-model="desconto" id="inlineFormInputName2" placeholder="Porcentagem" />
+                      <b-button v-show="showInputDeDesconto" class="mb-2 mr-sm-2 mb-sm-0" @click="addDesconto()" variant="outline-success">OK</b-button>
+                    </div>
                       <!--<b-modal id="pecaAdicional" title="Peças Adicionais (Saia, Rodapé, etc...)">
                         <div>
                           <b-input-group left="@" class="mb-2 mr-sm-2 mb-sm-0">
@@ -188,7 +196,10 @@ export default {
       precoGranito: '',
       precoPeca: '',
       items: [],
-      precoTotal: 0
+      desconto: null,
+      showInputDeDesconto: false,
+      precoTotal: 0,
+      precoTotalComDesconto: 0
     }
   },
   filters: {
@@ -215,7 +226,7 @@ export default {
       this.dadocliente = false
       this.dadoPeca = false
       this.nota = true
-      clienteRef.push({
+      clienteRef.child('vendas').push({
         cliente: this.nome,
         endereco: this.endereco,
         contato: this.contato,
@@ -223,7 +234,10 @@ export default {
         mes: this.mes,
         ano: this.ano,
         itens: this.items,
-        precoTotal: this.precoTotal
+        precoTotal: this.precoTotal,
+        precoTotalComDesconto: this.precoTotalComDesconto,
+        desconto: this.desconto,
+        status: 'AGUARDANDO APROVAÇÃO'
       })
     },
     addFuro () {
@@ -263,6 +277,15 @@ export default {
       this.dia = now.getDate()
       this.mes = now.getMonth() + 1
       this.ano = now.getFullYear()
+    },
+    showInputDesconto () {
+      this.showInputDeDesconto = true
+    },
+    addDesconto () {
+      this.showInputDeDesconto = false
+      // this.desconto é o valor em porcentagem que será descontado, vindo do input da tela de peças
+      var desconto = (this.precoTotal / 100) * this.desconto
+      this.precoTotalComDesconto = this.precoTotal - desconto
     },
     enviaTudoParaOFirebase () {
     }
@@ -321,7 +344,6 @@ export default {
  }
   .container {
     padding: 10px;
-    font-family: 'Josefin Slab', serif;
   }
   .bloco {
     display: inline-flex;
@@ -338,5 +360,8 @@ export default {
   .notaOrcamento {
     justify-content: center;
     font-family: 'Josefin Slab', serif;
+  }
+  .bgDesconto {
+    background-color: whitesmoke;
   }
 </style>

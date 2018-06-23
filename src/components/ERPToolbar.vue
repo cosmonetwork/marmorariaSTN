@@ -65,14 +65,16 @@
         <span class="md-title">{{ titulo }}</span>
       </md-app-toolbar>
 
-      <md-app-drawer :md-active.sync="menuVisible" md-persistent="mini" md-permanent="clipped">
-        <md-list>
+      <md-app-drawer :md-active.sync="menuVisible" md-permanent="clipped">
+        <md-list class="md-dense">
           <md-list-item to="/novoorcamento">
             <md-icon>insert_drive_file</md-icon>
             <span class="md-list-item-text">Novo Orçamento</span>
           </md-list-item>
-
-          <md-divider />
+          <md-list-item to="/listadeorcamentos">
+            <md-icon>insert_drive_file</md-icon>
+            <span class="md-list-item-text">Lista de Orçamentos</span>
+          </md-list-item>
         </md-list>
       </md-app-drawer>
 
@@ -118,7 +120,6 @@ export default {
 
   .md-drawer {
     height: 600px;
-    position: inherit;
     width: 250px;
     max-width: calc(100vw - 125px);
   }
