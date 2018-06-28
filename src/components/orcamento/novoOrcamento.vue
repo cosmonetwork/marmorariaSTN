@@ -1,6 +1,6 @@
 <template>
     <div class="NovoOrcamento">
-      <md-toolbar class=" md-dense md-primary">
+      <md-toolbar class="md-primary">
         <md-button class="md-icon-button">
           <router-link to="/home"><md-icon>arrow_back</md-icon></router-link>
         </md-button>
@@ -123,46 +123,71 @@
       </div>
       <div v-if="nota" class="container notaOrcamento">
         <div>
-          <h3>Marmoraria Sant'ana</h3>
+          <h3 align="center">Marmoraria Sant'ana</h3>
+          <h6 align="center">D.SARGES RAMOS-ME | CNPJ: 18.368.552/0001-12 | INSC. EST.: 03.046511-7</h6>
+          <H6 align="center">AV. CORA DE CARVALHO, Nº 3178, SANTA RITA</H6>
+          <h6 align="center">FONE: (96)9 9125-7996 | (96)9 8107-4925 | (96)9 8140-7996</h6>
+          <br>
+          <h5 align="center">ORÇAMENTO</h5>
         </div>
         <md-divider />
         <div>
-          <table class="table table-sm">
+          <table class="table-sm">
             <tr>
-              <th>Cliente:</th>
+              <th scope="row">Cliente:</th>
               <th>{{ nome }}</th>
             </tr>
             <tr>
-              <th>Endereço:</th>
+              <th scope="row">Endereço:</th>
               <th>{{ endereco }}</th>
             </tr>
             <tr>
-              <th>Contato:</th>
+              <th scope="row">Contato:</th>
               <th>{{ contato }}</th>
+              <th>Data:</th>
+              <th>{{ dia }}/{{ mes }}/{{ano}}</th>
             </tr>
           </table>
                   <table class="table table-sm table-bordered">
                     <thead>
                       <tr>
-                        <th scope="col">Qtd</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Comprimento</th>
-                        <th scope="col">Largura</th>
+                        <th scope="col">Peça</th>
+                        <th scope="col">Comprimento x Largura</th>
                         <th scope="col">Granito</th>
                         <th scope="col">Preço</th>
                       </tr>
                     </thead>
                     <tbody v-for="itemNota in items" :key="itemNota.index">
                       <tr>
-                        <th scope="row">{{ itemNota.qtd }}</th>
-                        <td>{{ itemNota.nomePeca }}</td>
-                        <td>{{ itemNota.comprimento }}</td>
-                        <td>{{ itemNota.largura }}</td>
+                        <td>{{ itemNota.qtd }} - {{ itemNota.nomePeca }}</td>
+                        <td>{{ itemNota.comprimento }} x {{ itemNota.largura }}</td>
                         <td>{{ itemNota.granito }}</td>
                         <td>{{ itemNota.precoPeca | currency}}</td>
                       </tr>
                     </tbody>
                   </table>
+                  <table class="table-sm">
+                    <tr>
+                      <th scope="row">Total:</th>
+                      <th>{{ precoTotal | currency }}</th>
+                    </tr>
+                    <tr>
+                      <th scope="row">Total Com Desconto:</th>
+                      <th>{{ precoTotalComDesconto | currency}} ({{ desconto}}%)</th>
+                    </tr>
+                  </table>
+                  <hr>
+        </div>
+        <div>
+          <br>
+          <br>
+          <br>
+          <h4 align="center">______________________________________</h4>
+          <h6 align="center">{{ nome }}</h6>
+          <br>
+          <br>
+          <h4 align="center">______________________________________</h4>
+          <h6 align="center">Atendente</h6>
         </div>
       </div>
     </div>
@@ -204,7 +229,7 @@ export default {
   },
   filters: {
     currency: (value) => {
-      return 'R$' + parseFloat(value).toFixed(2)
+      return 'R$ ' + parseFloat(value).toFixed(2)
     }
   },
   firebase: {
@@ -244,9 +269,9 @@ export default {
       this.items.push({
         qtd: 1,
         nomePeca: 'Furo',
-        precoPeca: 65
+        precoPeca: 84.5
       })
-      this.precoTotal = this.precoTotal + 65
+      this.precoTotal = this.precoTotal + 84.5
     },
     addItem () {
       var Peca = this.nomePeca
@@ -262,6 +287,7 @@ export default {
         precoPeca: this.precoPeca
       })
       this.precoTotal = this.precoTotal + this.precoPeca
+      this.qtd = ''
       this.nomePeca = ''
       this.comprimento = ''
       this.largura = ''

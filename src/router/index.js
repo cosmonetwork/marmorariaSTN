@@ -4,6 +4,7 @@ import ERPToolbar from '@/components/ERPToolbar'
 import NovoOrcamento from '@/components/orcamento/novoOrcamento'
 import Login from '@/components/login'
 import ListaOrcamento from '@/components/orcamento/ListaOrcamento'
+import Tabs from '@/components/orcamento/tabs'
 // import firebase from 'firebase'
 
 Vue.use(Router)
@@ -22,6 +23,17 @@ let router = new Router({
       path: '/home',
       name: 'Home',
       component: ERPToolbar,
+      children: [
+        {
+          path: '/controle',
+          component: Tabs
+        },
+        {
+          path: '/novoorcamento',
+          name: 'novoOrcamento',
+          component: NovoOrcamento
+        }
+      ],
       meta: {
         requireAuth: true
       }
@@ -30,11 +42,6 @@ let router = new Router({
       path: '/login',
       name: 'Login',
       component: Login
-    },
-    {
-      path: '/novoorcamento',
-      name: 'novoOrcamento',
-      component: NovoOrcamento
     },
     {
       path: '/listadeorcamentos',

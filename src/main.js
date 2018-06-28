@@ -5,19 +5,23 @@ import App from './App'
 import router from './router'
 import VueMaterial from 'vue-material'
 import Firebase from 'firebase'
+import Vuetify from 'vuetify'
 // import Firebaseui from 'firebaseui'
 import VueFire from 'vuefire'
 import './firefiles/firebase'
-import BootstrapVue from 'bootstrap-vue'
+// import BootstrapVue from 'bootstrap-vue'
 
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-import 'vue-material/dist/vue-material.min.css'
-import 'vue-material/dist/theme/default.css'
+// import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap-vue/dist/bootstrap-vue.css'
+// import 'vue-material/dist/vue-material.min.css'
+// import 'vue-material/dist/theme/default.css'
+import 'vuetify/dist/vuetify.min.css'
+// import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
-Vue.use(BootstrapVue)
+// Vue.use(BootstrapVue)
 Vue.use(VueMaterial)
 Vue.use(VueFire)
+Vue.use(Vuetify)
 Vue.config.productionTip = false
 
 const config = {

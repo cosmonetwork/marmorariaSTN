@@ -1,130 +1,219 @@
 <template>
-  <div>
-  <!--<div class="ERPToolbar complete-example">
-      <md-whiteframe md-elevation="2" md-theme="sidebar">
-        <md-toolbar md-theme="sidebar" class="md-dense">
-
-          <md-button class="md-icon-button" @click="$refs.sidenav.toggle()">
-            <md-icon>menu</md-icon>
-          </md-button>
-
-          <h2 class="md-title">{{ titulo }}</h2>
-          <span style="flex: 1"></span>
-          <md-button class="md-icon-button">
-            <md-icon>search</md-icon>
-          </md-button>
-        </md-toolbar>
-      </md-whiteframe>
-
-      <md-sidenav class="md-fixed" md-theme="sidebar" ref="sidenav">
-        <md-toolbar class="md-primary md-account-header">
-          <md-list class="md-transparent">
-            <md-list-item class="md-avatar-list">
-              <md-avatar class="md-large">
-                <img src="https://placeimg.com/64/64/people/11" alt="People">
-              </md-avatar>
-            </md-list-item>
-
-            <md-list-item>
-              <div class="md-list-text-container">
-                <span>Lorran Ramos</span>
-                <span>ptklorran@gmail.com</span>
-              </div>
-
-              <md-button class="md-icon-button md-list-action">
-                <md-icon>arrow_drop_down</md-icon>
-              </md-button>
-            </md-list-item>
-          </md-list>
-        </md-toolbar>
-
-        <md-list>
-          <md-subheader>ORÇAMENTO</md-subheader>
-          <md-list-item @click="$refs.sidenav.toggle()">
-            <router-link to="/novoorcamento"> <md-icon>insert_drive_file</md-icon> <span @click="$refs.sidenav.toggle()">Novo Orçamento</span></router-link>
-          </md-list-item>
-          <md-divider />
-
-          <md-subheader>CLIENTES</md-subheader>
-          <md-list-item @click="$refs.sidenav.toggle()">
-            <md-icon>people</md-icon> <span>Cadastrar Cliente</span>
-          </md-list-item>
-
-          <md-divider />
-          <md-subheader>CAIXA</md-subheader>
-        </md-list>
-      </md-sidenav>
+  <v-app id="inspire">
+    <v-navigation-drawer
+      :clipped="$vuetify.breakpoint.lgAndUp"
+      v-model="drawer"
+      fixed
+      app
+    >
+      <v-list dense>
+        <template v-for="item in items">
+          <v-layout
+            v-if="item.heading"
+            :key="item.heading"
+            row
+            align-center
+          >
+            <v-flex xs6>
+              <v-subheader v-if="item.heading">
+                {{ item.heading }}
+              </v-subheader>
+            </v-flex>
+            <v-flex xs6 class="text-xs-center">
+              <a href="#!" class="body-2 black--text">EDIT</a>
+            </v-flex>
+          </v-layout>
+          <v-list-group
+            v-else-if="item.children"
+            v-model="item.model"
+            :key="item.text"
+            :prepend-icon="item.model ? item.icon : item['icon-alt']"
+            append-icon=""
+          >
+            <v-list-tile slot="activator">
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  {{ item.text }}
+                </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile
+              v-for="(child, i) in item.children"
+              :key="i"
+              @click="roteador(child, i)"
+            >
+              <v-list-tile-action v-if="child.icon">
+                <v-icon>{{ child.icon }}</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  {{ child.text }}
+                </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list-group>
+          <v-list-tile v-else :key="item.text" @click="roteador(item)">
+            <v-list-tile-action>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                {{ item.text }}
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar
+      :clipped-left="$vuetify.breakpoint.lgAndUp"
+      color="blue darken-3"
+      dark
+      app
+      fixed
+    >
+      <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
+        <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+        <span class="hidden-sm-and-down">ERP</span>
+      </v-toolbar-title>
+      <v-text-field
+        flat
+        solo-inverted
+        prepend-icon="search"
+        label="Pesquisar"
+        class="hidden-sm-and-down"
+      ></v-text-field>
+      <v-spacer></v-spacer>
+      <v-btn icon>
+        <v-icon>notifications</v-icon>
+      </v-btn>
+      <v-btn icon large>
+        <v-avatar size="32px" tile>
+          <v-icon>face</v-icon>
+        </v-avatar>
+      </v-btn>
+    </v-toolbar>
+    <v-content>
+      <!--ROTEADOR: CONTROLE DO VUE-ROUTER DEFINIDO EM SRC/ROUTER/INDEX.JS-->
       <router-view />
-  </div>-->
-  <div class="ERPToolbar">
-    <md-app>
-      <md-app-toolbar class="md-elevation-1 md-dense md-primary">
-        <md-button class="md-icon-button" @click="toggleMenu">
-          <md-icon>menu</md-icon>
-        </md-button>
-        <span class="md-title">{{ titulo }}</span>
-      </md-app-toolbar>
-
-      <md-app-drawer :md-active.sync="menuVisible" md-permanent="clipped">
-        <md-list class="md-dense">
-          <md-list-item to="/novoorcamento">
-            <md-icon>insert_drive_file</md-icon>
-            <span class="md-list-item-text">Novo Orçamento</span>
-          </md-list-item>
-          <md-list-item to="/listadeorcamentos">
-            <md-icon>insert_drive_file</md-icon>
-            <span class="md-list-item-text">Lista de Orçamentos</span>
-          </md-list-item>
-        </md-list>
-      </md-app-drawer>
-
-      <md-app-content>
-        <router-view />
-      </md-app-content>
-    </md-app>
-  </div>
-  </div>
+      <!--ROTEADOR: ATÉ AQUI-->
+      <v-container fluid fill-height>
+        <v-layout justify-center align-center>
+        </v-layout>
+      </v-container>
+    </v-content>
+    <v-btn
+      fab
+      bottom
+      right
+      color=""
+      dark
+      fixed
+      @click.stop="dialog = !dialog"
+    >
+      <v-icon>add</v-icon>
+    </v-btn>
+    <v-dialog v-model="dialog" width="800px">
+      <v-card>
+        <v-card-title
+          class="grey lighten-4 py-4 title"
+        >
+          Add Cliente
+        </v-card-title>
+        <v-container grid-list-sm class="pa-4">
+          <v-layout row wrap>
+            <v-flex xs12 align-center justify-space-between>
+              <v-layout align-center>
+                <v-avatar size="40px" class="mr-3">
+                  <img
+                    src="//ssl.gstatic.com/s2/oz/images/sge/grey_silhouette.png"
+                    alt=""
+                  >
+                </v-avatar>
+                <v-text-field
+                  placeholder="Nome"
+                ></v-text-field>
+              </v-layout>
+            </v-flex>
+            <v-flex xs12>
+              <v-text-field
+                prepend-icon="business"
+                placeholder="Endereço"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs6>
+              <v-text-field
+                prepend-icon="mail"
+                placeholder="Email"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs6>
+              <v-text-field
+                type="tel"
+                prepend-icon="phone"
+                placeholder="(96) 0000 - 0000"
+                mask="(##) # ####-####"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12>
+              <v-text-field
+                prepend-icon="notes"
+                placeholder="Obs:"
+              ></v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-container>
+        <v-card-actions>
+          <v-btn flat color="primary">Mais</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn flat color="primary" @click="dialog = false">Cancelar</v-btn>
+          <v-btn flat @click="dialog = false">Salvar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-app>
 </template>
 
 <script>
 export default {
-  name: 'ERPToolbar',
-  data () {
-    return {
-      menuVisible: false,
-      titulo: 'Marmoraria Santa Ana'
-    }
+  data: () => ({
+    dialog: false,
+    drawer: null,
+    items: [
+      { icon: 'history', text: 'Controle' },
+      { icon: 'description', text: 'Novo Orçamento' },
+      { icon: 'contacts', text: 'Cadastrar Cliente' },
+      /* {
+        icon: 'keyboard_arrow_up',
+        'icon-alt': 'keyboard_arrow_down',
+        text: 'CLIENTES',
+        model: false,
+        children: [
+          { text: 'Cadastrar Cliente' },
+          { text: 'Listar Clientes' }
+        ]
+      }, */
+      { text: '' },
+      { icon: 'settings', text: 'ADMINISTRAÇÃO' }
+    ]
+  }),
+  props: {
+    source: String
   },
   methods: {
-    toggleMenu () {
-      this.menuVisible = !this.menuVisible
+    /* roteador é responsável por verificar um item clicado no menu
+    lateral (drawer) e direcionar para a página correspondente usando o nome como condição */
+
+    roteador (child, i) {
+      if (child.text === 'Novo Orçamento') {
+        this.$router.push('/novoorcamento')
+      } else if (child.text === 'Controle') {
+        this.$router.push('/controle')
+      }
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-@import "~vue-material/dist/theme/engine"; // Import the theme engine
-
-@include md-register-theme("default", (
-  primary: md-get-palette-color(blue, A200), // The primary color of your application
-  accent: md-get-palette-color(red, A200) // The accent or secondary color
-));
-
-@import "~vue-material/dist/theme/all"; // Apply the theme
-
-  .md-app {
-    min-height: 600px;
-  }
-
-  .md-drawer {
-    height: 600px;
-    width: 250px;
-    max-width: calc(100vw - 125px);
-  }
-  .md-toolbar.md-theme-default.md-primary {
-    background-color: #448aff;
-  }
-
 </style>

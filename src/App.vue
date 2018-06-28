@@ -18,7 +18,4 @@ export default {
 </script>
 
 <style>
-.app {
-  font-family: 'Josefin Slab', serif;
-}
 </style>
