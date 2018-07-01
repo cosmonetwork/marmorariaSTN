@@ -67,6 +67,7 @@
     </v-navigation-drawer>
     <v-toolbar
       :clipped-left="$vuetify.breakpoint.lgAndUp"
+      class="elevation-1"
       color="blue darken-3"
       dark
       app

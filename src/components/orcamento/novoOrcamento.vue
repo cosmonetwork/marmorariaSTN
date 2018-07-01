@@ -19,7 +19,7 @@
               <H6 align="center">DADOS DO CLIENTE</H6>
               <md-divider />
               <md-field md-clearable>
-                <label class="labels">NOME</label>
+                <label class="labels">NOME{{ nome | capitalize }}</label>
                 <md-input v-model="nome" />
               </md-field>
               <md-field md-clearable>
@@ -195,6 +195,7 @@
 
 <script>
 import { clienteRef } from '../../firefiles/firebase'
+import 'vue-material/dist/vue-material.min.css'
 
 export default {
   props: {
@@ -227,9 +228,20 @@ export default {
       precoTotalComDesconto: 0
     }
   },
+  vuex: {
+    getters: {
+      user: store => store.user
+    },
+    actions: {}
+  },
   filters: {
     currency: (value) => {
       return 'R$ ' + parseFloat(value).toFixed(2)
+    },
+    capitalize: (value) => {
+      if (!value) return ''
+      value = value.toString()
+      return value.charAt(0).toUpperCase() + value.slice(1)
     }
   },
   firebase: {

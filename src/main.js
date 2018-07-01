@@ -8,6 +8,7 @@ import Firebase from 'firebase'
 import Vuetify from 'vuetify'
 // import Firebaseui from 'firebaseui'
 import VueFire from 'vuefire'
+import store from './vuex/store'
 import './firefiles/firebase'
 // import BootstrapVue from 'bootstrap-vue'
 
@@ -47,6 +48,7 @@ new Vue({
       }
     })
   },
+  store,
   components: { App },
   template: '<App/>'
 })

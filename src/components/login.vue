@@ -38,8 +38,8 @@
           <v-container fluid fill-height>
             <v-layout align-center justify-center>
               <v-flex xs12 sm8 md4>
-                <v-card class="elevation-12">
-                  <v-toolbar dark color="primary">
+                <v-card class="elevation-1">
+                  <v-toolbar class="elevation-1" color="white">
                     <v-toolbar-title>Marmoraria Santa Ana</v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-tooltip bottom>
@@ -50,19 +50,19 @@
                         large
                         target="_blank"
                       >
-                        <v-progress-circular v-if="loading" :width="3" indeterminate color="white"></v-progress-circular>
+                        <v-progress-circular v-if="loading" :width="3" indeterminate color="black"></v-progress-circular>
                       </v-btn>
                     </v-tooltip>
                   </v-toolbar>
                   <v-card-text>
                     <v-form>
-                      <v-text-field v-model="email" prepend-icon="person" name="login" label="Login" type="text"></v-text-field>
-                      <v-text-field @keyup.enter="login()" v-model="senha" id="password" prepend-icon="lock" name="password" label="Password" type="password"></v-text-field>
+                      <v-text-field v-model="email" color="black" prepend-icon="person" name="login" label="Login" type="text"></v-text-field>
+                      <v-text-field @keyup.enter="login()" color="black" v-model="senha" id="password" prepend-icon="lock" type="password" name="password" label="Senha"></v-text-field>
                     </v-form>
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn @click="login()" color="primary">Login</v-btn>
+                    <v-btn @click="login()" color="">Login</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-flex>
